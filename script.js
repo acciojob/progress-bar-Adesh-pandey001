@@ -1,42 +1,42 @@
-const progress = document.getElementById('progress');
-const prev = document.getElementById('prev');
-const next = document.getElementById('next');
 const circles = document.querySelectorAll('.circle');
+const progress = document.getElementById('progress');
+const next = document.getElementById('next');
+const prev = document.getElementById('prev');
 
-let currentStep = 1;
+let currentActive = 1;
 
 next.addEventListener('click', () => {
-  currentStep++;
-  if (currentStep > circles.length) {
-    currentStep = circles.length;
+  currentActive++;
+
+  if (currentActive > circles.length) {
+    currentActive = circles.length;
   }
+
   updateProgress();
 });
 
 prev.addEventListener('click', () => {
-  currentStep--;
-  if (currentStep < 1) {
-    currentStep = 1;
+  currentActive--;
+
+  if (currentActive < 1) {
+    currentActive = 1;
   }
+
   updateProgress();
 });
 
 function updateProgress() {
-  // Update active classes
   circles.forEach((circle, idx) => {
-    if (idx < currentStep) {
+    if (idx < currentActive) {
       circle.classList.add('active');
     } else {
       circle.classList.remove('active');
     }
   });
 
-  // Update progress bar
-  const progressPercent = ((currentStep - 1) / (circles.length - 1)) * 100;
-  progress.style.width = `${progressPercent}%`;
+  const percent = ((currentActive - 1) / (circles.length - 1)) * 100;
+  progress.style.width = `${percent}%`;
 
-  // Handle button states
-  prev.disabled = currentStep === 1;
-  next.disabled = currentStep === circles.length;
+  prev.disabled = currentActive === 1;
+  next.disabled = currentActive === circles.length;
 }
-
